@@ -22,6 +22,17 @@ public class LanguageParams {
     private String text;
     private URL url;
 
+    /**
+     * Constructs parameters that define a document whose language needs to
+     * be calculated.
+     *
+     * @param text Text to determine the language
+     *             This argument may be null, in which case url can not
+     *             be null
+     * @param url URL to determine the language
+     *            This argument may be null, in which case text can not
+     *            be null
+     */
     public LanguageParams(String text, URL url) {
         this.text = text;
         this.url = url;
@@ -39,6 +50,9 @@ public class LanguageParams {
         return new Builder();
     }
 
+    /**
+     * Builder class to construct a LanguageParams instance.
+     */
     public static class Builder {
         private String text;
         private URL url;

@@ -23,6 +23,20 @@ public class ExtractParams {
     private URL url;
     private Boolean bestImage = false;
 
+    /**
+     * Constructs parameters that define a web page whose data needs to
+     * be extracted.
+     *
+     * @param html Raw HTML to extract data from
+     *             This argument may be null, in which case url can not
+     *             be null
+     * @param url URL to extract data from
+     *            This argument may be null, in which case html can not
+     *            be null
+     * @param bestImage Whether to extract the best image of the article
+     *                  This argument may be null, in which case a default
+     *                  value of false is assumed
+     */
     public ExtractParams(String html, URL url, Boolean bestImage) {
         this.html = html;
         this.url = url;
@@ -45,6 +59,9 @@ public class ExtractParams {
         return new Builder();
     }
 
+    /**
+     * Builder class to construct an ExtractParams instance.
+     */
     public static class Builder {
         private String html;
         private URL url;

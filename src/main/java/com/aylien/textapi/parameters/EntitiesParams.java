@@ -22,6 +22,17 @@ public class EntitiesParams {
     private String text;
     private URL url;
 
+    /**
+     * Constructs parameters that define a document whose entities needs to
+     * be extracted.
+     *
+     * @param text Text to extract entities from
+     *             This argument may be null, in which case url can not
+     *             be null
+     * @param url URL to extract entities from
+     *            This argument may be null, in which case text can not
+     *            be null
+     */
     public EntitiesParams(String text, URL url) {
         this.text = text;
         this.url = url;
@@ -35,6 +46,9 @@ public class EntitiesParams {
         return url;
     }
 
+    /**
+     * Builder class to construct an EntitiesParams instance.
+     */
     public static Builder newBuilder() {
         return new Builder();
     }

@@ -23,6 +23,20 @@ public class HashTagsParams {
     private URL url;
     private String language;
 
+    /**
+     * Constructs parameters that defines a document whose hashtags need to
+     * be calculated.
+     *
+     * @param text Text to extract hashtags from
+     *             This argument may be null, in which case url can not
+     *             be null
+     * @param url URL to extract hashtags from
+     *            This argument may be null, in which case text can not
+     *            be null
+     * @param language Language of the document
+     *                 This argument may be null, in which case a default
+     *                 value of en is assumed
+     */
     public HashTagsParams(String text, URL url, String language) {
         this.text = text;
         this.url = url;
@@ -45,6 +59,9 @@ public class HashTagsParams {
         return new Builder();
     }
 
+    /**
+     * Builder class to construct a HashTagsParams instance.
+     */
     public static class Builder {
         private String text;
         private URL url;

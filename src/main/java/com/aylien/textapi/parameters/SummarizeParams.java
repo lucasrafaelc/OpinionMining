@@ -26,6 +26,31 @@ public class SummarizeParams {
     private String title;
     private URL url;
 
+    /**
+     * Constructs parameters that define a document whose summary needs to
+     * generated.
+     *
+     * @param text Text
+     *             This argument may be null, in which case url can not
+     *             be null. If text is provided, title is required too.
+     * @param title Title
+     *              This argument may be null, in which case url can not
+     *              be null. If title is provided, text is required too.
+     * @param url URL
+     *            This argument may be null, in which case the pair of
+     *            text and title can not be null
+     * @param mode Summarize mode
+     *             This argument may be null, in which case a default value
+     *             of default is assumed.
+     *             Possible values are: default and short.
+     * @param numberOfSentences Number of sentences in summary
+     *                          This argument may be null, in which case a
+     *                          default value of 5 is assumed.
+     * @param percentageOfSentences Percentage of original document's
+     *                              number of sentences in summary.
+     *                              This argument may be null, in which case
+     *                              value of numberOfSentences is used.
+     */
     public SummarizeParams(String text, String title, URL url, String mode, int numberOfSentences, int percentageOfSentences) {
         this.text = text;
         this.title = title;
@@ -63,6 +88,9 @@ public class SummarizeParams {
         return new Builder();
     }
 
+    /**
+     * Builder class to construct a SummarizeParams instance.
+     */
     public static class Builder {
         private String mode = "default";
         private int numberOfSentences = 5;

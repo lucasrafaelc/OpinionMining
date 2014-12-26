@@ -20,6 +20,15 @@ public class RelatedParams {
     private String phrase;
     private int count;
 
+    /**
+     * Constructs parameters that define a phrase whose related phrases need
+     * to be retrieved.
+     *
+     * @param phrase Phrase to retrieve its related phrases
+     * @param count Number of related phrases to retrieve
+     *              This argument may be zero, in which case a default
+     *              value of 20 is assumed. Maximum possible value is 100.
+     */
     public RelatedParams(String phrase, int count) {
         this.phrase = phrase;
         this.count = count;
@@ -37,6 +46,9 @@ public class RelatedParams {
         return new Builder();
     }
 
+    /**
+     * Builder class to construct a RelatedParams instance.
+     */
     public static class Builder {
         private String phrase;
         private int count = 20;

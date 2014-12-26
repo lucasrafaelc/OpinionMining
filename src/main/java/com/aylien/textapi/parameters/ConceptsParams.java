@@ -23,6 +23,20 @@ public class ConceptsParams {
     private URL url;
     private String language;
 
+    /**
+     * Constructs parameters that define a document whose concepts needs to
+     * be extracted.
+     *
+     * @param text Text to extract concepts from
+     *             This argument may be null, in which case url can not
+     *             be null
+     * @param url URL to extract concepts from
+     *            This argument may be null, in which case text can not
+     *            be null
+     * @param language Language of the document
+     *                 This argument may be null, in which case a default
+     *                 value of en is assumed
+     */
     public ConceptsParams(String text, URL url, String language) {
         this.text = text;
         this.url = url;
@@ -45,6 +59,9 @@ public class ConceptsParams {
         return new Builder();
     }
 
+    /**
+     * Builder class to construct a ConceptParams instance.
+     */
     public static class Builder {
         private String text;
         private URL url;

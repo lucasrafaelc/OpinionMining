@@ -23,6 +23,21 @@ public class SentimentParams {
     private URL url;
     private String mode;
 
+    /**
+     * Constructs parameters that define a document whose sentiment need
+     * analysis.
+     *
+     * @param text Text to calculate the sentiment of
+     *             This argument may be null, in which case url can not
+     *             be null
+     * @param url URL to calculate the sentiment of
+     *            This argument may be null, in which case text can not
+     *            be null
+     * @param mode Analysis mode.
+     *             This argument may be null, in which case a default value
+     *             of tweet is assumed.
+     *             Possible values are: tweet and document.
+     */
     public SentimentParams(String text, URL url, String mode) {
         this.text = text;
         this.url = url;
@@ -45,6 +60,9 @@ public class SentimentParams {
         return new Builder();
     }
 
+    /**
+     * Builder class that constructs a SentimentParams instance.
+     */
     public static class Builder {
         private String text;
         private URL url;

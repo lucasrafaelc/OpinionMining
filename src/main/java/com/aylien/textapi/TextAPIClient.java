@@ -39,10 +39,23 @@ public class TextAPIClient {
 
     private RateLimits rateLimits;
 
+    /**
+     * Constructs a Text API Client.
+     *
+     * @param applicationId Your application ID
+     * @param applicationKey Your application key
+     */
     public TextAPIClient(String applicationId, String applicationKey) {
         this(applicationId, applicationKey, true);
     }
 
+    /**
+     * Constructs a Text API Client.
+     *
+     * @param applicationId Your application ID
+     * @param applicationKey Your application key
+     * @param useHttps Whether to use HTTPS for web service calls
+     */
     public TextAPIClient(String applicationId, String applicationKey, boolean useHttps) {
         if (applicationId == null || applicationId.isEmpty() ||
                 applicationKey == null || applicationKey.isEmpty())
@@ -61,6 +74,13 @@ public class TextAPIClient {
         this.apiHostAndPath = apiHostAndPath;
     }
 
+    /**
+     * Extracts the main body of article, including embedded media such as
+     * images & videos from a URL and removes all the surrounding clutter.
+     *
+     * @param extractParams extract parameters
+     * @return Article
+     */
     public Article extract(ExtractParams extractParams) throws TextAPIException {
         Map<String, String> parameters = new HashMap<String, String>();
         if (extractParams.getHtml() != null) {
@@ -91,6 +111,12 @@ public class TextAPIClient {
         return article;
     }
 
+    /**
+     * Classifies a body of text according to IPTC NewsCode standard.
+     *
+     * @param classifyParams classify parameters
+     * @return Classifications
+     */
     public Classifications classify(ClassifyParams classifyParams) throws TextAPIException {
         Map<String, String> parameters = new HashMap<String, String>();
         if (classifyParams.getText() != null) {
@@ -119,6 +145,14 @@ public class TextAPIClient {
         return classifications;
     }
 
+    /**
+     * Extracts named entities mentioned in a document, disambiguates and
+     * cross link them to DBPedia and Linked Data entities, along with their
+     * semantic types (including DBPedia and schema.org).
+     *
+     * @param conceptsParams concepts parameters
+     * @return Concepts
+     */
     public Concepts concepts(ConceptsParams conceptsParams) throws TextAPIException {
         Map<String, String> parameters = new HashMap<String, String>();
         if (conceptsParams.getText() != null) {
@@ -147,6 +181,14 @@ public class TextAPIClient {
         return concepts;
     }
 
+    /**
+     * Extracts named entities (people, organizations and locations) and values
+     * (URLs, emails, telephone numbers, currency amounts and percentages)
+     * mentioned in a bod of text.
+     *
+     * @param entitiesParams entities parameters
+     * @return Entities
+     */
     public Entities entities(EntitiesParams entitiesParams) throws TextAPIException {
         Map<String, String> parameters = new HashMap<String, String>();
         if (entitiesParams.getText() != null) {
@@ -171,6 +213,12 @@ public class TextAPIClient {
         return entities;
     }
 
+    /**
+     * Suggests hashtags describing the document.
+     *
+     * @param hashTagsParams hashtags parameters
+     * @return HashTags
+     */
     public HashTags hashtags(HashTagsParams hashTagsParams) throws TextAPIException {
         Map<String, String> parameters = new HashMap<String, String>();
 
@@ -200,6 +248,12 @@ public class TextAPIClient {
         return hashTags;
     }
 
+    /**
+     * Detects the main language of a document is written in.
+     *
+     * @param languageParams language parameters
+     * @return Language
+     */
     public Language language(LanguageParams languageParams) throws TextAPIException {
         Map<String, String> parameters = new HashMap<String, String>();
         if (languageParams.getText() != null) {
@@ -224,6 +278,12 @@ public class TextAPIClient {
         return language;
     }
 
+    /**
+     * Returns phrases related to the provided unigram or bigram.
+     *
+     * @param relatedParams related parameters
+     * @return Related
+     */
     public Related related(RelatedParams relatedParams) throws TextAPIException {
         Map<String, String> parameters = new HashMap<String, String>();
         if (relatedParams.getPhrase() != null) {
@@ -250,6 +310,14 @@ public class TextAPIClient {
         return related;
     }
 
+    /**
+     * Detects sentiment of a body of text in terms of polarity
+     * ("positive" or "negative") and subjectivity
+     * ("subjective" or "objective").
+     *
+     * @param sentimentParams sentiment parameters
+     * @return Sentiment.
+     */
     public Sentiment sentiment(SentimentParams sentimentParams) throws TextAPIException {
         Map<String, String> parameters = new HashMap<String, String>();
         if (sentimentParams.getText() != null) {
@@ -279,6 +347,12 @@ public class TextAPIClient {
         return sentiment;
     }
 
+    /**
+     * Summarizes an article into a few key sentences.
+     *
+     * @param summarizeParams summarize params
+     * @return Summarize
+     */
     public Summarize summarize(SummarizeParams summarizeParams) throws TextAPIException {
         Map<String, String> parameters = new HashMap<String, String>();
         if (summarizeParams.getTitle() != null && summarizeParams.getText() != null) {
