@@ -79,7 +79,7 @@ public class ConceptsTest extends Fixtures {
         Assert.assertEquals(desiredConcept.getSupport(), 538753);
         SurfaceForm surfaceForm = desiredConcept.getSurfaceForms()[0];
         Assert.assertNotNull(surfaceForm);
-        Assert.assertEquals(surfaceForm.getText(), "United States");
+        Assert.assertEquals(surfaceForm.getString(), "United States");
         Assert.assertEquals(surfaceForm.getOffset(), 54);
         Assert.assertTrue(surfaceForm.getScore() > 0.999);
         Assert.assertEquals(conceptsResponse.getLanguage(), "en");

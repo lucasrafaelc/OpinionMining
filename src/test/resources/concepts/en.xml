@@ -6,7 +6,7 @@
     <concept uri="http://dbpedia.org/resource/Race_and_ethnicity_in_the_United_States_Census">
       <surfaceforms>
         <surfaceform>
-          <text>African American</text>
+          <string>African American</string>
           <score>0.9775916924283343</score>
           <offset>83</offset>
         </surfaceform>
@@ -19,7 +19,7 @@
     <concept uri="http://dbpedia.org/resource/Barack_Obama">
       <surfaceforms>
         <surfaceform>
-          <text>Barack Obama</text>
+          <string>Barack Obama</string>
           <score>0.9997772953632137</score>
           <offset>0</offset>
         </surfaceform>
@@ -36,7 +36,7 @@
     <concept uri="http://dbpedia.org/resource/United_States">
       <surfaceforms>
         <surfaceform>
-          <text>United States</text>
+          <string>United States</string>
           <score>0.9999067449772838</score>
           <offset>54</offset>
         </surfaceform>

@@ -52,7 +52,7 @@ public class Concept {
         StringBuilder builder = new StringBuilder();
         builder.append(String.format("%s (%d) ", uri, support));
         for (SurfaceForm sf: surfaceform) {
-            builder.append(sf.getText() + " ");
+            builder.append(sf.getString() + " ");
         }
         for (String t: types) {
             builder.append(t + " ");

@@ -20,12 +20,12 @@ import javax.xml.bind.annotation.*;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 public class SurfaceForm {
-    private String text;
+    private String string;
     private double score;
     private int offset;
 
-    public String getText() {
-        return text;
+    public String getString() {
+        return string;
     }
 
     public double getScore() {
