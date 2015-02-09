@@ -388,6 +388,33 @@ public class TextAPIClient {
         return summarize;
     }
 
+    /**
+     * Extracts microformats
+     * @param microformatsParams microformats params
+     * @return Microformats
+     */
+    public Microformats microformats(MicroformatsParams microformatsParams) throws TextAPIException {
+        Map<String, String> parameters = new HashMap<String, String>();
+        if (microformatsParams.getUrl() == null) {
+            throw new IllegalArgumentException("You must provide a url");
+        }
+
+        parameters.put("url", microformatsParams.getUrl().toString());
+
+        Microformats microformats;
+        try {
+            String response = this.doHttpRequest("microformats", parameters);
+            JAXBContext jc = JAXBContext.newInstance(Microformats.class);
+            Unmarshaller u = jc.createUnmarshaller();
+
+            microformats = (Microformats) u.unmarshal(new StringReader(response));
+        } catch (Exception e) {
+            throw new TextAPIException(e);
+        }
+
+        return microformats;
+    }
+
     private String doHttpRequest(String endpoint, Map<String, String> parameters) throws Exception {
         Map<String, String> headers = new HashMap<String, String>();
         headers.put("Accept", "text/xml");
