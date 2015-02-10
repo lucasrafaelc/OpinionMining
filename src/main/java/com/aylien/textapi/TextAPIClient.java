@@ -20,6 +20,7 @@ import com.aylien.textapi.parameters.*;
 import com.aylien.textapi.responses.*;
 
 import java.io.StringReader;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -99,7 +100,7 @@ public class TextAPIClient {
 
         Article article;
         try {
-            String response = this.doHttpRequest("extract", parameters);
+            String response = this.doHttpRequest("extract", transformParameters(parameters));
             JAXBContext jc = JAXBContext.newInstance(Article.class);
             Unmarshaller u = jc.createUnmarshaller();
 
@@ -133,7 +134,7 @@ public class TextAPIClient {
 
         Classifications classifications;
         try {
-            String response = this.doHttpRequest("classify", parameters);
+            String response = this.doHttpRequest("classify", transformParameters(parameters));
             JAXBContext jc = JAXBContext.newInstance(Classifications.class);
             Unmarshaller u = jc.createUnmarshaller();
 
@@ -143,6 +144,42 @@ public class TextAPIClient {
         }
 
         return classifications;
+    }
+
+    /**
+     * Picks the most semantically relevant class label or tag.
+     *
+     * @param classifyParams classify parameters
+     * @return UnsupervisedClassifications
+     */
+    public UnsupervisedClassifications unsupervisedClassify(UnsupervisedClassifyParams classifyParams) throws TextAPIException {
+        Map<String, List<String>> parameters = new HashMap<String, List<String>>();
+        if (classifyParams.getText() != null) {
+            parameters.put("text", Arrays.asList(classifyParams.getText()));
+        } else if (classifyParams.getUrl() != null) {
+            parameters.put("url", Arrays.asList(classifyParams.getUrl().toString()));
+        } else {
+            throw new IllegalArgumentException("You must either provide text or url");
+        }
+
+        parameters.put("class", Arrays.asList(classifyParams.getClasses()));
+
+        if (classifyParams.getNumberOfConcepts() > 0) {
+            parameters.put("number_of_concepts", Arrays.asList(Integer.toString(classifyParams.getNumberOfConcepts())));
+        }
+
+        UnsupervisedClassifications unsupervisedClassifications;
+        try {
+            String response = this.doHttpRequest("classify/unsupervised", parameters);
+            JAXBContext jc = JAXBContext.newInstance(UnsupervisedClassifications.class);
+            Unmarshaller u = jc.createUnmarshaller();
+
+            unsupervisedClassifications = (UnsupervisedClassifications) u.unmarshal(new StringReader(response));
+        } catch (Exception e) {
+            throw new TextAPIException(e);
+        }
+
+        return unsupervisedClassifications;
     }
 
     /**
@@ -169,7 +206,7 @@ public class TextAPIClient {
 
         Concepts concepts;
         try {
-            String response = this.doHttpRequest("concepts", parameters);
+            String response = this.doHttpRequest("concepts", transformParameters(parameters));
             JAXBContext jc = JAXBContext.newInstance(Concepts.class);
             Unmarshaller u = jc.createUnmarshaller();
 
@@ -201,7 +238,7 @@ public class TextAPIClient {
 
         Entities entities;
         try {
-            String response = this.doHttpRequest("entities", parameters);
+            String response = this.doHttpRequest("entities", transformParameters(parameters));
             JAXBContext jc = JAXBContext.newInstance(Entities.class);
             Unmarshaller u = jc.createUnmarshaller();
 
@@ -236,7 +273,7 @@ public class TextAPIClient {
 
         HashTags hashTags;
         try {
-            String response = this.doHttpRequest("hashtags", parameters);
+            String response = this.doHttpRequest("hashtags", transformParameters(parameters));
             JAXBContext jc = JAXBContext.newInstance(HashTags.class);
             Unmarshaller u = jc.createUnmarshaller();
 
@@ -266,7 +303,7 @@ public class TextAPIClient {
 
         Language language;
         try {
-            String response = this.doHttpRequest("language", parameters);
+            String response = this.doHttpRequest("language", transformParameters(parameters));
             JAXBContext jc = JAXBContext.newInstance(Language.class);
             Unmarshaller u = jc.createUnmarshaller();
 
@@ -298,7 +335,7 @@ public class TextAPIClient {
 
         Related related;
         try {
-            String response = this.doHttpRequest("related", parameters);
+            String response = this.doHttpRequest("related", transformParameters(parameters));
             JAXBContext jc = JAXBContext.newInstance(Related.class);
             Unmarshaller u = jc.createUnmarshaller();
 
@@ -334,7 +371,7 @@ public class TextAPIClient {
 
         Sentiment sentiment;
         try {
-            String response = this.doHttpRequest("sentiment", parameters);
+            String response = this.doHttpRequest("sentiment", transformParameters(parameters));
 
             JAXBContext jc = JAXBContext.newInstance(Sentiment.class);
             Unmarshaller u = jc.createUnmarshaller();
@@ -376,7 +413,7 @@ public class TextAPIClient {
 
         Summarize summarize;
         try {
-            String response = this.doHttpRequest("summarize", parameters);
+            String response = this.doHttpRequest("summarize", transformParameters(parameters));
             JAXBContext jc = JAXBContext.newInstance(Summarize.class);
             Unmarshaller u = jc.createUnmarshaller();
 
@@ -403,7 +440,7 @@ public class TextAPIClient {
 
         Microformats microformats;
         try {
-            String response = this.doHttpRequest("microformats", parameters);
+            String response = this.doHttpRequest("microformats", transformParameters(parameters));
             JAXBContext jc = JAXBContext.newInstance(Microformats.class);
             Unmarshaller u = jc.createUnmarshaller();
 
@@ -415,7 +452,17 @@ public class TextAPIClient {
         return microformats;
     }
 
-    private String doHttpRequest(String endpoint, Map<String, String> parameters) throws Exception {
+    private Map<String, List<String>> transformParameters(Map<String, String> parameters) {
+        Map<String, List<String>> transformedParameters = new HashMap<String, List<String>>();
+        for (Map.Entry<String, String> entry: parameters.entrySet()) {
+            List<String> values = Arrays.asList(entry.getValue());
+            transformedParameters.put(entry.getKey(), values);
+        }
+
+        return transformedParameters;
+    }
+
+    private String doHttpRequest(String endpoint, Map<String, List<String>> parameters) throws Exception {
         Map<String, String> headers = new HashMap<String, String>();
         headers.put("Accept", "text/xml");
         headers.put("X-AYLIEN-TextAPI-Application-ID", this.applicationId);

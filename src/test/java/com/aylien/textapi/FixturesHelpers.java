@@ -18,8 +18,7 @@ package com.aylien.textapi;
 
 import java.io.*;
 import java.net.URLDecoder;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 public class FixturesHelpers {
     private FixturesHelpers() { /* singleton */ }
@@ -49,6 +48,28 @@ public class FixturesHelpers {
             String[] field = f.split("=");
             if (field.length == 2) {
                 params.put(field[0], URLDecoder.decode(field[1], "UTF8"));
+            }
+        }
+
+        return params;
+    }
+
+    public static Map<String, List<String>> multiParameters(String body) throws IOException {
+        Map<String, List<String>> params = new HashMap<String, List<String>>();
+        String[] fields = body.split("&");
+        for (String f: fields) {
+            String[] field = f.split("=");
+            if (field.length == 2) {
+                String value = URLDecoder.decode(field[1], "UTF8");
+                if (params.containsKey(field[0])) {
+                    List<String> currentValue = params.get(field[0]);
+                    currentValue.add(value);
+                    params.put(field[0], currentValue);
+                } else {
+                    List<String> v = new ArrayList<String>();
+                    v.add(value);
+                    params.put(field[0], v);
+                }
             }
         }
 

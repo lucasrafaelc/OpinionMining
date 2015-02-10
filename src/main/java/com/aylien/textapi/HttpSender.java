@@ -31,7 +31,7 @@ public class HttpSender {
 
     private Map<String, List<String>> responseHeaders;
 
-    public String post(String url, Map<String, String> parameters, Map<String, String> headers)
+    public String post(String url, Map<String, List<String>> parameters, Map<String, String> headers)
             throws IOException, TextAPIException {
         try {
             HttpURLConnection connection = (HttpURLConnection) new URL(url).openConnection();
@@ -43,10 +43,14 @@ public class HttpSender {
             connection.setRequestProperty("User-Agent", USER_AGENT);
 
             StringBuilder payload = new StringBuilder();
-            for (Map.Entry<String, String> e: parameters.entrySet()) {
+            for (Map.Entry<String, List<String>> e: parameters.entrySet()) {
                 if (payload.length() > 0) { payload.append('&'); }
-                payload.append(URLEncoder.encode(e.getKey(), "UTF-8")).append('=')
-                        .append(URLEncoder.encode(e.getValue(), "UTF-8"));
+                String key = URLEncoder.encode(e.getKey(), "UTF-8");
+                List<String> values = e.getValue();
+                for (int i = 0; i < values.size(); i++) {
+                    if (i > 0) { payload.append('&'); }
+                    payload.append(key).append('=').append(URLEncoder.encode(values.get(i), "UTF-8"));
+                }
             }
 
             OutputStreamWriter writer = new OutputStreamWriter(connection.getOutputStream());
