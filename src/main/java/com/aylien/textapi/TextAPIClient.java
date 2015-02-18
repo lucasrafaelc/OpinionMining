@@ -427,6 +427,7 @@ public class TextAPIClient {
 
     /**
      * Extracts microformats
+     *
      * @param microformatsParams microformats params
      * @return Microformats
      */
@@ -450,6 +451,34 @@ public class TextAPIClient {
         }
 
         return microformats;
+    }
+
+    /**
+     * Assigns relevant tags to an image
+     *
+     * @param imageTagsParams
+     * @return ImageTags
+     */
+    public ImageTags imageTags(ImageTagsParams imageTagsParams) throws TextAPIException {
+        Map<String, String> parameters = new HashMap<String, String>();
+        if (imageTagsParams.getUrl() == null) {
+            throw new IllegalArgumentException("You must provide a url");
+        }
+
+        parameters.put("url", imageTagsParams.getUrl().toString());
+
+        ImageTags imageTags;
+        try {
+            String response = this.doHttpRequest("image-tags", transformParameters(parameters));
+            JAXBContext jc = JAXBContext.newInstance(ImageTags.class);
+            Unmarshaller unmarshaller = jc.createUnmarshaller();
+
+            imageTags = (ImageTags) unmarshaller.unmarshal(new StringReader(response));
+        } catch (Exception e) {
+            throw new TextAPIException(e);
+        }
+
+        return imageTags;
     }
 
     private Map<String, List<String>> transformParameters(Map<String, String> parameters) {

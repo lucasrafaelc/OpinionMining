@@ -21,23 +21,23 @@ import java.util.List;
 
 @XmlRootElement(name="result")
 @XmlAccessorType(XmlAccessType.FIELD)
-public class Microformats {
-    @XmlElementWrapper(name="hCards")
-    @XmlElement(name="hcard")
-    private List<HCard> hCards;
+public class ImageTags {
+    @XmlElementWrapper(name="tags")
+    @XmlElement(name="tag")
+    private List<ImageTag> tags;
 
-    public List<HCard> gethCards() {
-        return hCards;
+    public List<ImageTag> getTags() {
+        return tags;
     }
 
-    public void sethCards(List<HCard> hCards) {
-        this.hCards = hCards;
+    public void setTags(List<ImageTag> tags) {
+        this.tags = tags;
     }
 
     @Override
     public String toString() {
-        return "Microformats{" +
-                "hCards=" + hCards +
+        return "ImageTags{" +
+                "tags=" + tags +
                 '}';
     }
 }

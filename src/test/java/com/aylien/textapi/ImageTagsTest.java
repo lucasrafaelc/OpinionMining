@@ -16,11 +16,9 @@
 
 package com.aylien.textapi;
 
-import com.aylien.textapi.parameters.MicroformatsParams;
-import com.aylien.textapi.responses.Address;
-import com.aylien.textapi.responses.HCard;
-import com.aylien.textapi.responses.Microformats;
-import com.aylien.textapi.responses.Name;
+import com.aylien.textapi.responses.ImageTag;
+import com.aylien.textapi.responses.ImageTags;
+import com.aylien.textapi.parameters.ImageTagsParams;
 import com.squareup.okhttp.mockwebserver.MockResponse;
 import org.junit.Assert;
 import org.junit.Test;
@@ -30,24 +28,29 @@ import java.util.Map;
 
 import static com.aylien.textapi.FixturesHelpers.fixture;
 
-public class MicroformatsTest extends Fixtures {
+public class ImageTagsTest extends Fixtures {
     @Test
-    public void validURL() throws Exception {
-        URL url = new URL("http://codepen.io/anon/pen/ZYaKbz.html");
-        String body = fixture("microformats/full_url.xml");
+    public void validLogoURL() throws Exception {
+        URL url = new URL("https://developer.aylien.com/images/logo-small.png");
+        String body = fixture("imageTags/logo_url.xml");
         mockWebServer.enqueue(new MockResponse().setBody(body));
-        Microformats response = textAPIClient.microformats(new MicroformatsParams(url));
+        ImageTags response = textAPIClient.imageTags(new ImageTagsParams(url));
         Map<String, String> requestParams = takeRequestParams();
         Assert.assertEquals(url.toString(), requestParams.get("url"));
-        Assert.assertEquals(1, response.gethCards().size());
-        HCard hCard = response.gethCards().get(0);
-        Assert.assertEquals("sally@example.com", hCard.getEmail());
-        Address address = hCard.getAddress();
-        Assert.assertNotNull(address);
-        Assert.assertEquals("California", address.getRegion());
-        Name structuredName = hCard.getStructuredName();
-        Assert.assertNotNull(structuredName);
-        Assert.assertEquals("Sally", structuredName.getGivenName());
+        Assert.assertEquals(27, response.getTags().size());
+        ImageTag first = response.getTags().get(0);
+        Assert.assertEquals("symbol", first.getName());
     }
 
+    @Test
+    public void noUrl() {
+        try {
+            textAPIClient.imageTags(new ImageTagsParams(null));
+            Assert.fail("should fail");
+        } catch (IllegalArgumentException e) {
+            // expected
+        } catch (TextAPIException e) {
+            Assert.fail("shouldn't fail here");
+        }
+    }
 }

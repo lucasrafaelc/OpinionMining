@@ -17,27 +17,33 @@
 package com.aylien.textapi.responses;
 
 import javax.xml.bind.annotation.*;
-import java.util.List;
 
-@XmlRootElement(name="result")
 @XmlAccessorType(XmlAccessType.FIELD)
-public class Microformats {
-    @XmlElementWrapper(name="hCards")
-    @XmlElement(name="hcard")
-    private List<HCard> hCards;
+public class ImageTag {
+    private String name;
+    private double confidence;
 
-    public List<HCard> gethCards() {
-        return hCards;
+    public String getName() {
+        return name;
     }
 
-    public void sethCards(List<HCard> hCards) {
-        this.hCards = hCards;
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public double getConfidence() {
+        return confidence;
+    }
+
+    public void setConfidence(double confidence) {
+        this.confidence = confidence;
     }
 
     @Override
     public String toString() {
-        return "Microformats{" +
-                "hCards=" + hCards +
+        return "ImageTag{" +
+                "name='" + name + '\'' +
+                ", confidence=" + confidence +
                 '}';
     }
 }

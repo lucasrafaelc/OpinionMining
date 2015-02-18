@@ -14,30 +14,37 @@
  * limitations under the License.
  */
 
-package com.aylien.textapi.responses;
+package com.aylien.textapi.parameters;
 
-import javax.xml.bind.annotation.*;
-import java.util.List;
+import java.net.URL;
 
-@XmlRootElement(name="result")
-@XmlAccessorType(XmlAccessType.FIELD)
-public class Microformats {
-    @XmlElementWrapper(name="hCards")
-    @XmlElement(name="hcard")
-    private List<HCard> hCards;
+public class ImageTagsParams {
+    private URL url;
 
-    public List<HCard> gethCards() {
-        return hCards;
+    public ImageTagsParams(URL url) {
+        this.url = url;
     }
 
-    public void sethCards(List<HCard> hCards) {
-        this.hCards = hCards;
+    public URL getUrl() {
+        return url;
     }
 
-    @Override
-    public String toString() {
-        return "Microformats{" +
-                "hCards=" + hCards +
-                '}';
+    public void setUrl(URL url) {
+        this.url = url;
+    }
+
+    public static Builder newBuilder() { return new Builder(); }
+
+    public static class Builder {
+        private URL url;
+
+        public Builder setUrl(URL url) {
+            this.url = url;
+            return this;
+        }
+
+        public ImageTagsParams build() {
+            return new ImageTagsParams(url);
+        }
     }
 }

@@ -48,5 +48,7 @@ public class UnsupervisedClassificationsTest extends Fixtures {
         }
         Set<String> responseClasses = new HashSet<String>(rClasses);
         Assert.assertEquals(true, responseClasses.equals(originalClasses));
+        UnsupervisedClass topClass = response.getClasses()[0];
+        Assert.assertEquals("painting", topClass.getLabel());
     }
 }
