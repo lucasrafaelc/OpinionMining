@@ -21,7 +21,6 @@ import java.util.List;
 import javax.xml.bind.annotation.*;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
-@XmlRootElement(name="result")
 public class Entities {
     private String text;
     private List<Entity> entities = new ArrayList<Entity>();

@@ -20,11 +20,9 @@ import com.aylien.textapi.parameters.*;
 import com.aylien.textapi.responses.*;
 
 import java.io.StringReader;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import javax.xml.bind.*;
+import javax.xml.transform.stream.StreamSource;
 
 public class TextAPIClient {
 
@@ -104,7 +102,8 @@ public class TextAPIClient {
             JAXBContext jc = JAXBContext.newInstance(Article.class);
             Unmarshaller u = jc.createUnmarshaller();
 
-            article = (Article) u.unmarshal(new StringReader(response));
+            JAXBElement<Article> root = u.unmarshal(new StreamSource(new StringReader(response)), Article.class);
+            article = root.getValue();
         } catch (Exception e) {
             throw new TextAPIException(e);
         }
@@ -138,7 +137,8 @@ public class TextAPIClient {
             JAXBContext jc = JAXBContext.newInstance(Classifications.class);
             Unmarshaller u = jc.createUnmarshaller();
 
-            classifications = (Classifications) u.unmarshal(new StringReader((response)));
+            JAXBElement<Classifications> root = u.unmarshal(new StreamSource(new StringReader(response)), Classifications.class);
+            classifications = root.getValue();
         } catch (Exception e) {
             throw new TextAPIException(e);
         }
@@ -183,6 +183,38 @@ public class TextAPIClient {
     }
 
     /**
+     * Run multiple analysis operations in one API call by specifying multiple
+     * endpoints.
+     *
+     * @param combinedParams combined parameters
+     * @return Combined
+     */
+    public Combined combined(CombinedParams combinedParams) throws TextAPIException {
+        Map<String, List<String>> parameters = new HashMap<String, List<String>>();
+        if (combinedParams.getText() != null) {
+            parameters.put("text", Collections.singletonList(combinedParams.getText()));
+        } else if (combinedParams.getUrl() != null) {
+            parameters.put("url", Collections.singletonList(combinedParams.getUrl().toString()));
+        } else {
+            throw new IllegalArgumentException("You must either provide text or url");
+        }
+        parameters.put("endpoint", Arrays.asList(combinedParams.getEndpoints()));
+
+        Combined combined;
+        try {
+            String response = this.doHttpRequest("combined", parameters);
+            JAXBContext jc = JAXBContext.newInstance(Combined.class);
+            Unmarshaller u = jc.createUnmarshaller();
+
+            combined = (Combined) u.unmarshal(new StringReader(response));
+        } catch (Exception e) {
+            throw new TextAPIException(e);
+        }
+
+        return combined;
+    }
+
+    /**
      * Extracts named entities mentioned in a document, disambiguates and
      * cross link them to DBPedia and Linked Data entities, along with their
      * semantic types (including DBPedia and schema.org).
@@ -210,7 +242,8 @@ public class TextAPIClient {
             JAXBContext jc = JAXBContext.newInstance(Concepts.class);
             Unmarshaller u = jc.createUnmarshaller();
 
-            concepts = (Concepts) u.unmarshal(new StringReader(response));
+            JAXBElement<Concepts> root = u.unmarshal(new StreamSource(new StringReader(response)), Concepts.class);
+            concepts = root.getValue();
         } catch (Exception e) {
             throw new TextAPIException(e);
         }
@@ -242,7 +275,8 @@ public class TextAPIClient {
             JAXBContext jc = JAXBContext.newInstance(Entities.class);
             Unmarshaller u = jc.createUnmarshaller();
 
-            entities = (Entities) u.unmarshal(new StringReader(response));
+            JAXBElement<Entities> root = u.unmarshal(new StreamSource(new StringReader(response)), Entities.class);
+            entities = root.getValue();
         } catch (Exception e) {
             throw new TextAPIException(e);
         }
@@ -277,7 +311,8 @@ public class TextAPIClient {
             JAXBContext jc = JAXBContext.newInstance(HashTags.class);
             Unmarshaller u = jc.createUnmarshaller();
 
-            hashTags = (HashTags) u.unmarshal(new StringReader(response));
+            JAXBElement<HashTags> root = u.unmarshal(new StreamSource(new StringReader(response)), HashTags.class);
+            hashTags = root.getValue();
         } catch (Exception e) {
             throw new TextAPIException(e);
         }
@@ -307,7 +342,8 @@ public class TextAPIClient {
             JAXBContext jc = JAXBContext.newInstance(Language.class);
             Unmarshaller u = jc.createUnmarshaller();
 
-            language = (Language) u.unmarshal(new StringReader(response));
+            JAXBElement<Language> root = u.unmarshal(new StreamSource(new StringReader(response)), Language.class);
+            language = root.getValue();
         } catch (Exception e) {
             throw new TextAPIException(e);
         }
@@ -376,7 +412,8 @@ public class TextAPIClient {
             JAXBContext jc = JAXBContext.newInstance(Sentiment.class);
             Unmarshaller u = jc.createUnmarshaller();
 
-            sentiment = (Sentiment) u.unmarshal(new StringReader(response));
+            JAXBElement<Sentiment> root = u.unmarshal(new StreamSource(new StringReader(response)), Sentiment.class);
+            sentiment = root.getValue();
         } catch(Exception e) {
             throw new TextAPIException(e);
         }
@@ -417,7 +454,8 @@ public class TextAPIClient {
             JAXBContext jc = JAXBContext.newInstance(Summarize.class);
             Unmarshaller u = jc.createUnmarshaller();
 
-            summarize = (Summarize) u.unmarshal(new StringReader(response));
+            JAXBElement<Summarize> root = u.unmarshal(new StreamSource(new StringReader(response)), Summarize.class);
+            summarize = root.getValue();
         } catch (Exception e) {
             throw new TextAPIException(e);
         }

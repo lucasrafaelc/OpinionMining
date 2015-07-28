@@ -18,6 +18,7 @@ package com.aylien.textapi.responses;
 
 import javax.xml.bind.annotation.*;
 
+@XmlType(name="conceptSurfaceForm")
 @XmlAccessorType(XmlAccessType.FIELD)
 public class SurfaceForm {
     private String string;

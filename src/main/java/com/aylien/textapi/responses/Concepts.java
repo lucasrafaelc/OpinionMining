@@ -19,7 +19,6 @@ package com.aylien.textapi.responses;
 import java.util.List;
 import javax.xml.bind.annotation.*;
 
-@XmlRootElement(name="result")
 @XmlAccessorType(XmlAccessType.FIELD)
 public class Concepts {
     private String text;

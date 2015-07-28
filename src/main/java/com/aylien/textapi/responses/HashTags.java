@@ -18,7 +18,6 @@ package com.aylien.textapi.responses;
 
 import javax.xml.bind.annotation.*;
 
-@XmlRootElement(name="result")
 @XmlAccessorType(XmlAccessType.FIELD)
 public class HashTags {
     private String text;
