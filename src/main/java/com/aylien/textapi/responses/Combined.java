@@ -21,6 +21,7 @@ import javax.xml.bind.annotation.*;
 @XmlRootElement(name="result")
 public class Combined {
 
+    private String text;
     private Article article;
     private Concepts concepts;
     private Entities entities;
@@ -29,6 +30,7 @@ public class Combined {
     private Summarize summary;
     private Sentiment sentiment;
     private Classifications classifications;
+    private TaxonomyClassifications[] taxonomyClassifications;
 
     @XmlElement(name="extract")
     public Article getArticle() {
@@ -39,12 +41,22 @@ public class Combined {
         this.article = article;
     }
 
+    @XmlElement(name="text")
+    public String getText() {
+        return text;
+    }
+
+    public void setText(String text) {
+        this.text = text;
+    }
+
     @XmlElement(name="sentiment")
     public Sentiment getSentiment() {
         return sentiment;
     }
 
     public void setSentiment(Sentiment sentiment) {
+        sentiment.setText(text);
         this.sentiment = sentiment;
     }
 
@@ -54,6 +66,7 @@ public class Combined {
     }
 
     public void setClassifications(Classifications classifications) {
+        classifications.setText(text);
         this.classifications = classifications;
     }
 
@@ -63,6 +76,7 @@ public class Combined {
     }
 
     public void setConcepts(Concepts concepts) {
+        concepts.setText(text);
         this.concepts = concepts;
     }
 
@@ -72,6 +86,7 @@ public class Combined {
     }
 
     public void setEntities(Entities entities) {
+        entities.setText(text);
         this.entities = entities;
     }
 
@@ -81,6 +96,7 @@ public class Combined {
     }
 
     public void setHashTags(HashTags hashTags) {
+        hashTags.setText(text);
         this.hashTags = hashTags;
     }
 
@@ -90,6 +106,7 @@ public class Combined {
     }
 
     public void setLanguage(Language language) {
+        language.setText(text);
         this.language = language;
     }
 
@@ -99,6 +116,19 @@ public class Combined {
     }
 
     public void setSummary(Summarize summary) {
+        summary.setText(text);
         this.summary = summary;
+    }
+
+    @XmlElement(name="classify_by_taxonomy")
+    public TaxonomyClassifications[] getTaxonomyClassifications() {
+        return taxonomyClassifications;
+    }
+
+    public void setTaxonomyClassifications(TaxonomyClassifications[] classifications) {
+        for (TaxonomyClassifications t: classifications) {
+            t.setText(text);
+        }
+        this.taxonomyClassifications = classifications;
     }
 }

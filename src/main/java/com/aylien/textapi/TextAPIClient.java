@@ -147,6 +147,46 @@ public class TextAPIClient {
     }
 
     /**
+     * Classifies a body of text according to the specified taxonomy.
+     *
+     * @param classifyParams classify parameters
+     * @return TaxonomyClassifications
+     */
+    public TaxonomyClassifications classifyByTaxonomy(ClassifyByTaxonomyParams classifyParams) throws TextAPIException {
+        Map<String, String> parameters = new HashMap<String, String>();
+        if (classifyParams.getText() != null) {
+            parameters.put("text", classifyParams.getText());
+        } else if (classifyParams.getUrl() != null) {
+            parameters.put("url", classifyParams.getUrl().toString());
+        } else {
+            throw new IllegalArgumentException("You must either provide text or url");
+        }
+
+        if (classifyParams.getTaxonomy() == null) {
+            throw new IllegalArgumentException("You must specify the taxonomy");
+        }
+
+        if (classifyParams.getLanguage() != null) {
+            parameters.put("language", classifyParams.getLanguage());
+        }
+
+        TaxonomyClassifications classifications;
+        try {
+            String response = this.doHttpRequest("classify/" + classifyParams.getTaxonomy().toString(), transformParameters(parameters));
+            JAXBContext jc = JAXBContext.newInstance(TaxonomyClassifications.class);
+            Unmarshaller u = jc.createUnmarshaller();
+
+            JAXBElement<TaxonomyClassifications> root =
+                    u.unmarshal(new StreamSource(new StringReader(response)), TaxonomyClassifications.class);
+            classifications = root.getValue();
+        } catch(Exception e) {
+            throw new TextAPIException(e);
+        }
+
+        return classifications;
+    }
+
+    /**
      * Picks the most semantically relevant class label or tag.
      *
      * @param classifyParams classify parameters

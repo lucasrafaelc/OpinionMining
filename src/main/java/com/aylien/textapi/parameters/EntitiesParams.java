@@ -20,6 +20,7 @@ import java.net.URL;
 
 public class EntitiesParams {
     private String text;
+    private String language;
     private URL url;
 
     /**
@@ -34,8 +35,13 @@ public class EntitiesParams {
      *            be null
      */
     public EntitiesParams(String text, URL url) {
+        this(text, url, "en");
+    }
+
+    public EntitiesParams(String text, URL url, String language) {
         this.text = text;
         this.url = url;
+        this.language = language;
     }
 
     public String getText() {
@@ -44,6 +50,10 @@ public class EntitiesParams {
 
     public URL getUrl() {
         return url;
+    }
+
+    public String getLanguage() {
+        return language;
     }
 
     /**
@@ -55,6 +65,7 @@ public class EntitiesParams {
 
     public static class Builder {
         private String text;
+        private String language = "en";
         private URL url;
 
         public void setText(String text) {
@@ -65,8 +76,12 @@ public class EntitiesParams {
             this.url = url;
         }
 
+        public void setLanguage(String language) {
+            this.language = language;
+        }
+
         public EntitiesParams build() {
-            return new EntitiesParams(text, url);
+            return new EntitiesParams(text, url, language);
         }
     }
 }
