@@ -24,6 +24,7 @@ import org.junit.Assert;
 import org.junit.Test;
 
 import java.net.URL;
+import java.util.Calendar;
 import java.util.Map;
 
 import static com.aylien.textapi.FixturesHelpers.*;
@@ -62,6 +63,19 @@ public class ExtractTest extends Fixtures {
         Assert.assertEquals(url, requestParameters.get("url"));
         Assert.assertEquals(50, article.getVideos().length);
         Assert.assertEquals("http://feeds.mashable.com/Mashable", article.getFeeds()[0]);
+    }
+
+    @Test
+    public void publishDate() throws Exception {
+        String url = "http://www.cnet.com/news/google-amp-wants-to-turbocharge-articles-loading-on-phones/";
+        String body = fixture("extract/publish_date.xml");
+        mockWebServer.enqueue(new MockResponse().setBody(body));
+        ExtractParams extractParams = new ExtractParams(null, new URL(url), false);
+        Article article = textAPIClient.extract(extractParams);
+        Calendar cal = Calendar.getInstance();
+        cal.setTimeInMillis(0);
+        cal.set(2016, Calendar.FEBRUARY, 23, 0, 0, 0);
+        Assert.assertEquals(cal.getTime(), article.getPublishDate());
     }
 
 }

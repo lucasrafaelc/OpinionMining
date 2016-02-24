@@ -17,6 +17,7 @@
 package com.aylien.textapi.responses;
 
 import javax.xml.bind.annotation.*;
+import java.util.Date;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 public class Article {
@@ -37,6 +38,8 @@ public class Article {
     @XmlElementWrapper(name="feeds")
     @XmlElement(name="feed")
     private String[] feeds;
+
+    private Date publishDate;
 
     public String getTitle() {
         return title;
@@ -84,6 +87,14 @@ public class Article {
 
     public void setFeeds(String[] feeds) {
         this.feeds = feeds;
+    }
+
+    public Date getPublishDate() {
+        return publishDate;
+    }
+
+    public void setPublishDate(Date publishDate) {
+        this.publishDate = publishDate;
     }
 
     public String toString() {
