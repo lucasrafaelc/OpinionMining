@@ -75,7 +75,7 @@ public class TextAPIClient {
 
     /**
      * Extracts the main body of article, including embedded media such as
-     * images & videos from a URL and removes all the surrounding clutter.
+     * images &amp; videos from a URL and removes all the surrounding clutter.
      *
      * @param extractParams extract parameters
      * @return Article
