@@ -31,6 +31,38 @@ public class AspectSentence {
     @XmlElement(name="aspect")
     private Aspect[] aspects;
 
+    public String getText() {
+        return text;
+    }
+
+    public void setText(String text) {
+        this.text = text;
+    }
+
+    public String getPolarity() {
+        return polarity;
+    }
+
+    public void setPolarity(String polarity) {
+        this.polarity = polarity;
+    }
+
+    public double getPolarityConfidence() {
+        return polarityConfidence;
+    }
+
+    public void setPolarityConfidence(double polarityConfidence) {
+        this.polarityConfidence = polarityConfidence;
+    }
+
+    public Aspect[] getAspects() {
+        return aspects;
+    }
+
+    public void setAspects(Aspect[] aspects) {
+        this.aspects = aspects;
+    }
+
     @Override
     public String toString() {
         return "AspectSentence{" +

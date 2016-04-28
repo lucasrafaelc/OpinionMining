@@ -22,6 +22,7 @@ import java.util.Arrays;
 @XmlAccessorType(XmlAccessType.FIELD)
 public class AspectsSentiment {
     private String text;
+    private String domain;
 
     @XmlElementWrapper(name="aspects")
     @XmlElement(name="aspect")
@@ -53,6 +54,14 @@ public class AspectsSentiment {
 
     public void setSentences(AspectSentence[] sentences) {
         this.sentences = sentences;
+    }
+
+    public String getDomain() {
+        return domain;
+    }
+
+    public void setDomain(String domain) {
+        this.domain = domain;
     }
 
     @Override
