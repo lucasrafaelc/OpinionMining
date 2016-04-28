@@ -462,6 +462,44 @@ public class TextAPIClient {
     }
 
     /**
+     * Given a review for a product or service, analyzes the sentiment of the
+     * review towards each of the aspects of the product or review that are
+     * mentioned in it.
+     *
+     * @param params aspect based sentiment analysis parameters
+     * @return AspectsSentiment
+     */
+    public AspectsSentiment aspectBasedSentiment(AspectBasedSentimentParams params) throws TextAPIException {
+        Map<String, String> parameters = new HashMap<String, String>();
+        if (params.getText() != null) {
+            parameters.put("text", params.getText());
+        } else if (params.getUrl() != null) {
+            parameters.put("url", params.getUrl().toString());
+        } else {
+            throw new IllegalArgumentException("You must either provide text or url");
+        }
+
+        if (params.getDomain() == null) {
+            throw new IllegalArgumentException("You must specify the domain");
+        }
+
+        AspectsSentiment aspectsSentiment;
+        try {
+            String response = this.doHttpRequest("absa/" + params.getDomain().toString(), transformParameters(parameters));
+            JAXBContext jc = JAXBContext.newInstance(AspectsSentiment.class);
+            Unmarshaller u = jc.createUnmarshaller();
+
+            JAXBElement<AspectsSentiment> root =
+                    u.unmarshal(new StreamSource(new StringReader(response)), AspectsSentiment.class);
+            aspectsSentiment = root.getValue();
+        } catch(Exception e) {
+            throw new TextAPIException(e);
+        }
+
+        return aspectsSentiment;
+    }
+
+    /**
      * Summarizes an article into a few key sentences.
      *
      * @param summarizeParams summarize params
