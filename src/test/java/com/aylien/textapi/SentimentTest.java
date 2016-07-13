@@ -72,4 +72,18 @@ public class SentimentTest extends Fixtures {
         Assert.assertEquals(response.getPolarity(), "negative");
         Assert.assertEquals(response.getSubjectivity(), "subjective");
     }
+
+    @Test
+    public void tweetModeLanguage() throws Exception {
+        String text = "John is a very good football player.";
+        String body = fixture("sentiment/positive_text.xml");
+        mockWebServer.enqueue(new MockResponse().setBody(body));
+        SentimentParams.Builder builder = SentimentParams.newBuilder();
+        builder.setText(text);
+        builder.setLanguage("es");
+        Sentiment response = textAPIClient.sentiment(builder.build());
+        RecordedRequest request = mockWebServer.takeRequest();
+        Map<String, String> params = parameters(request.getUtf8Body());
+        Assert.assertEquals("es", params.get("language"));
+    }
 }

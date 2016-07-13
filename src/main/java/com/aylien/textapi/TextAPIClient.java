@@ -443,6 +443,9 @@ public class TextAPIClient {
 
         if (sentimentParams.getMode() != null) {
             parameters.put("mode", sentimentParams.getMode());
+            if (sentimentParams.getMode().equals("tweet") && sentimentParams.getLanguage() != null) {
+                parameters.put("language", sentimentParams.getLanguage());
+            }
         }
 
         Sentiment sentiment;

@@ -22,6 +22,7 @@ public class SentimentParams {
     private String text;
     private URL url;
     private String mode;
+    private String language;
 
     /**
      * Constructs parameters that define a document whose sentiment need
@@ -37,11 +38,17 @@ public class SentimentParams {
      *             This argument may be null, in which case a default value
      *             of tweet is assumed.
      *             Possible values are: tweet and document.
+     * @param language Input language.
      */
-    public SentimentParams(String text, URL url, String mode) {
+    public SentimentParams(String text, URL url, String mode, String language) {
         this.text = text;
         this.url = url;
         this.mode = mode;
+        this.language = language;
+    }
+
+    public SentimentParams(String text, URL url, String mode) {
+        this(text, url, mode, "en");
     }
 
     public String getText() {
@@ -56,6 +63,10 @@ public class SentimentParams {
         return mode;
     }
 
+    public String getLanguage() {
+        return language;
+    }
+
     public static Builder newBuilder() {
         return new Builder();
     }
@@ -67,6 +78,7 @@ public class SentimentParams {
         private String text;
         private URL url;
         private String mode = "tweet";
+        private String language = "en";
 
         public Builder setText(String text) {
             this.text = text;
@@ -83,8 +95,13 @@ public class SentimentParams {
             return this;
         }
 
+        public Builder setLanguage(String language) {
+            this.language = language;
+            return this;
+        }
+
         public SentimentParams build() {
-            return new SentimentParams(text, url, mode);
+            return new SentimentParams(text, url, mode, language);
         }
     }
 }
